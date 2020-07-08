@@ -144,11 +144,11 @@ def database():
 
     if control == 2:
         topic.delete(0, END)
-        
+
     control = 0
-    
 
 def library():
+    global delete_box
 
     library = Tk()
     library.title('Your Library')
@@ -163,12 +163,35 @@ def library():
 
     print_records = ''
     for record in records:
-         print_records += str(i) + "-" +str(record[0]) + "\n"
+         print_records += str(i) + "-" + str(record[0]) + "\n"
          i += 1
 
     library_label = Label(library, text = print_records, bg = "#92badc")
     library_label.grid(row = 0, column = 0)
 
+    delete_box = Entry(library, width = 20)
+    delete_box.grid(row = 0, column = 1)
+    delete_box.place(x = 150, y = 20)
+
+    delete_button = Button(library, text = "Delete Record From Table", command = delete)
+    delete_button.grid(row = 0, column = 1)
+  
+
+    conn.commit()
+
+    conn.close()
+
+def delete():
+    global delete_box
+
+    conn = sqlite3.connect('Articles_Library.db')
+
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE from MyLibrary WHERE Topics = " + delete_box.get())
+        
+    delete_box.delete(0 , END)
+        
     conn.commit()
 
     conn.close()
