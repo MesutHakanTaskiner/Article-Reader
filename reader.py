@@ -126,6 +126,7 @@ def database():
     global topic
     global topic_random
     global control
+    global topics
 
     conn = sqlite3.connect('Articles_Library.db')
 
@@ -150,13 +151,14 @@ def database():
 def library():
     global delete_box
     global my_listbox
+    global record
 
     library = Tk()
     library.title('Your Library')
     library.configure(background = "#92badc")
 
     my_listbox = Listbox(library)
-    my_listbox.pack()
+    my_listbox.pack(pady = 10)
 
     conn = sqlite3.connect('Articles_Library.db')
 
@@ -171,7 +173,7 @@ def library():
     for record in records:
         print_records += str(i) + "-" + str(record[0]) + "\n"
         i += 1
-        my_listbox.insert(END, record[0])
+        my_listbox.insert(END, record)
     
     #library_label = Label(library, text = print_records, bg = "#92badc")
     #library_label.grid(row = 0, column = 0)
@@ -189,15 +191,16 @@ def library():
     conn.close()
 
 def delete():
-    global my_listbox 
-    
+    global my_listbox
+    global topics
+
     conn = sqlite3.connect('Articles_Library.db')
 
     cursor = conn.cursor()
+    
+    print(topics)
 
-    cursor.execute("DELETE from MyLibrary WHERE topics = " + my_listbox())
-        
-    delete_box.delete(0 , END)
+    cursor.execute("DELETE from MyLibrary WHERE topics = " + my_listbox.get())
         
     conn.commit()
 
