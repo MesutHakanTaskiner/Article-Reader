@@ -108,7 +108,7 @@ def summary():
           
     root.geometry("500x500")
  
-    mylabel = Label(root, text = wikipedia.summary(topic.get(), sentences = 20), wraplength = 400, bg = "#dde9f4")
+    mylabel = Label(root, text = wikipedia.summary(topic_get(), sentences = 20), wraplength = 400, bg = "#dde9f4")
     mylabel.grid(row = 1, column = 0)
     mylabel.place(x = 50, y = 50)
 
@@ -181,14 +181,14 @@ def library():
 
     conn.close()
 
-def delete():
+#def delete():
     global delete_box
 
     conn = sqlite3.connect('Articles_Library.db')
 
     cursor = conn.cursor()
 
-    cursor.execute("DELETE from MyLibrary WHERE Topics = " + delete_box.get())
+    cursor.execute("DELETE from MyLibrary WHERE text = id" + delete_box.get())
         
     delete_box.delete(0 , END)
         
