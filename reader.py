@@ -149,19 +149,21 @@ def database():
 
 def library():
     global delete_box
-    global my_list_box
+    global my_listbox
 
     library = Tk()
     library.title('Your Library')
     library.configure(background = "#92badc")
 
-    my_list_box = Listbox(library)
-    my_list_box.pack()
+    my_listbox = Listbox(library)
+    my_listbox.pack()
 
     conn = sqlite3.connect('Articles_Library.db')
 
     cursor = conn.cursor()
+
     i = 1
+
     cursor.execute("SELECT * FROM MyLibrary")
     records = cursor.fetchall()
 
@@ -169,7 +171,7 @@ def library():
     for record in records:
         print_records += str(i) + "-" + str(record[0]) + "\n"
         i += 1
-        my_list_box.insert(END, record[0])
+        my_listbox.insert(END, record[0])
     
     #library_label = Label(library, text = print_records, bg = "#92badc")
     #library_label.grid(row = 0, column = 0)
@@ -180,31 +182,27 @@ def library():
 
     delete_button = Button(library, text = "Delete Record From Table", command = delete).pack(pady = 10)
     #delete_button.grid(row = 3, column = 1)
-  
+
 
     conn.commit()
 
     conn.close()
 
 def delete():
-    global my_list_box
-
-    my_list_box.delete(ANCHOR)
-    '''
-    global delete_box
+    global my_listbox 
     
     conn = sqlite3.connect('Articles_Library.db')
 
     cursor = conn.cursor()
 
-    cursor.execute("DELETE from MyLibrary WHERE text = id" + delete_box.get())
+    cursor.execute("DELETE from MyLibrary WHERE topics = " + my_listbox())
         
     delete_box.delete(0 , END)
         
     conn.commit()
 
     conn.close()
-    '''
+    
 main_page_label = Label(main_page, text = "Welcome To The My Reader", bg = "#92badc")
 main_page_label.grid(row = 0, column = 0)
 main_page_label.config(font=("Courier", 20))
