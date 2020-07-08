@@ -149,10 +149,14 @@ def database():
 
 def library():
     global delete_box
+    global my_list_box
 
     library = Tk()
     library.title('Your Library')
     library.configure(background = "#92badc")
+
+    my_list_box = Listbox(library)
+    my_list_box.pack()
 
     conn = sqlite3.connect('Articles_Library.db')
 
@@ -163,27 +167,32 @@ def library():
 
     print_records = ''
     for record in records:
-         print_records += str(i) + "-" + str(record[0]) + "\n"
-         i += 1
+        print_records += str(i) + "-" + str(record[0]) + "\n"
+        i += 1
+        my_list_box.insert(END, record[0])
+    
+    #library_label = Label(library, text = print_records, bg = "#92badc")
+    #library_label.grid(row = 0, column = 0)
 
-    library_label = Label(library, text = print_records, bg = "#92badc")
-    library_label.grid(row = 0, column = 0)
+    #delete_box = Entry(library, width = 20)
+    #delete_box.grid(row = 0, column = 1)
+    #delete_box.place(x = 150, y = 20)
 
-    delete_box = Entry(library, width = 20)
-    delete_box.grid(row = 0, column = 1)
-    delete_box.place(x = 150, y = 20)
-
-    delete_button = Button(library, text = "Delete Record From Table", command = delete)
-    delete_button.grid(row = 0, column = 1)
+    delete_button = Button(library, text = "Delete Record From Table", command = delete).pack(pady = 10)
+    #delete_button.grid(row = 3, column = 1)
   
 
     conn.commit()
 
     conn.close()
 
-#def delete():
-    global delete_box
+def delete():
+    global my_list_box
 
+    my_list_box.delete(ANCHOR)
+    '''
+    global delete_box
+    
     conn = sqlite3.connect('Articles_Library.db')
 
     cursor = conn.cursor()
@@ -195,7 +204,7 @@ def library():
     conn.commit()
 
     conn.close()
-
+    '''
 main_page_label = Label(main_page, text = "Welcome To The My Reader", bg = "#92badc")
 main_page_label.grid(row = 0, column = 0)
 main_page_label.config(font=("Courier", 20))
