@@ -111,8 +111,6 @@ def summary():
     database_button.grid(row = 0, column = 0)
     database_button.place(x = 260, y = 0)
 
-    #topic.delete(0 , END)
-
 def database():
     global topic
     
@@ -120,7 +118,6 @@ def database():
     
     cursor = conn.cursor()
     topics = topic.get()
-    print(topics)
     
     cursor.execute('INSERT INTO MyLibrary VALUES (?)', (topics,))
 
@@ -135,19 +132,19 @@ def library():
     library = Tk()
     library.title('Your Library')
 
-    conn = sqlite3.connect('Article_Library.db')
+    conn = sqlite3.connect('Articles_Library.db')
 
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM MyLibrary")
     records = cursor.fetchall()
 
-    print_topic = ''
-    for topic in records:
-         print_records += topic + "\n"
+    print_records = ''
+    for record in records:
+         print_records += str(record[0]) + "\n"
 
-    library_label = Label(root, text = print_records)
-    library_label.grid(row =0, column = 0, columnspan = 2)
+    library_label = Label(library, text = print_records)
+    library_label.grid(row = 0, column = 0)
 
     conn.commit()
 
