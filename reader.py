@@ -21,6 +21,7 @@ cursor.execute("""CREATE TABLE MyLibrary (
         Topics text
 )""")
 '''
+control = 0
 
 def select():
     global mylabel
@@ -66,6 +67,7 @@ def random_select():
     global random_window
     global random_label_2
     global topic_random
+    global control
 
     random_window.geometry("500x500")
 
@@ -77,11 +79,11 @@ def random_select():
     random_label_2.grid_forget()
     random_label_2.destroy()
 
-    random_label = Label(random_window, text = "Topic : " + topic, bg = "#5b97ca")
+    random_label = Label(random_window, text = "Topic : " + topic_random, bg = "#5b97ca")
     random_label.grid(row = 1, column = 0)
-    random_label.place(x = 160, y = 20)
+    random_label.place(x = 160, y = 30)
 
-    random_label_2 = Label(random_window, text = wikipedia.summary(topic, sentences = 20), wraplength = 400, bg = "#5b97ca")
+    random_label_2 = Label(random_window, text = wikipedia.summary(topic_random, sentences = 20), wraplength = 400, bg = "#5b97ca")
     random_label_2.grid(row = 1, column = 0)
     random_label_2.place(x = 50, y = 50)
 
@@ -89,10 +91,17 @@ def random_select():
     exit_button.grid(row = 2, column = 0)
     exit_button.place(x = 400, y = 0)
 
+    database_button = Button(random_window, text = "Add Your Library", command = database, bg = "#bed6ea")
+    database_button.grid(row = 0, column = 0)
+    database_button.place(x = 260, y = 0)
+
+    control = 1
+
 def summary():
     global mylabel
     global topic
     global root
+    global control
 
     mylabel.grid_forget()
     mylabel.destroy()
@@ -111,13 +120,21 @@ def summary():
     database_button.grid(row = 0, column = 0)
     database_button.place(x = 260, y = 0)
 
+    control = 2
+
 def database():
     global topic
-    
+    global topic_random
+    global control
+
     conn = sqlite3.connect('Articles_Library.db')
-    
+
     cursor = conn.cursor()
-    topics = topic.get()
+
+    if control == 2:
+        topics = topic.get()
+    else:
+        topics = topic_random
     
     cursor.execute('INSERT INTO MyLibrary VALUES (?)', (topics,))
 
@@ -125,25 +142,31 @@ def database():
 
     conn.close()
 
-    topic.delete(0, END)
+    if control == 2:
+        topic.delete(0, END)
+        
+    control = 0
+    
 
 def library():
 
     library = Tk()
     library.title('Your Library')
+    library.configure(background = "#92badc")
 
     conn = sqlite3.connect('Articles_Library.db')
 
     cursor = conn.cursor()
-
+    i = 1
     cursor.execute("SELECT * FROM MyLibrary")
     records = cursor.fetchall()
 
     print_records = ''
     for record in records:
-         print_records += str(record[0]) + "\n"
+         print_records += str(i) + "-" +str(record[0]) + "\n"
+         i += 1
 
-    library_label = Label(library, text = print_records)
+    library_label = Label(library, text = print_records, bg = "#92badc")
     library_label.grid(row = 0, column = 0)
 
     conn.commit()
