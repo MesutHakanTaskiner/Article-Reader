@@ -2,6 +2,7 @@ from tkinter import *
 import requests
 from bs4 import BeautifulSoup
 import wikipedia
+import random
 
 main_page = Tk()
 
@@ -32,14 +33,37 @@ def select():
 
 
 def random():
-    return
+    global mylabel
+    global mybutton
+    global random_window
+    
+    random_window = Toplevel()
+    random_window.title('Random Topic')
+
+    mylabel = Label(random_window, text = "")
+
+    random_button = Button(random_window, text = "Click It For Random Topic", command = lambda : random_select())
+    random_button.grid(row = 0, column = 0)
+    random_button.place(x = 10, y = 0)
+
+def random_select():
+    global mylabel
+    global random_window
+
+    #mylabel = Label(random_window, text = wikipedia.summary(, sentences = 20), wraplength = 400)
+    #mylabel.grid(row = 1, column = 0)
+    #mylabel.place(x = 50, y = 50)
+
+    exit_button = Button(random_window, text = "Exit.", command = random_window.destroy)
+    exit_button.grid(row = 2, column = 0)
+    exit_button.place(x = 400, y = 0)
 
 def summary():
     global mylabel
     global topic
     global root
 
-    mylabel.grid_forget()
+    mylabel.grid_forget()#
     mylabel.destroy()
             
     topic.get()
