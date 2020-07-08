@@ -130,6 +130,28 @@ def database():
 
     topic.delete(0, END)
 
+def library():
+
+    library = Tk()
+    library.title('Your Library')
+
+    conn = sqlite3.connect('Article_Library.db')
+
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM MyLibrary")
+    records = cursor.fetchall()
+
+    print_topic = ''
+    for topic in records:
+         print_records += topic + "\n"
+
+    library_label = Label(root, text = print_records)
+    library_label.grid(row =0, column = 0, columnspan = 2)
+
+    conn.commit()
+
+    conn.close()
 
 main_page_label = Label(main_page, text = "Welcome To The My Reader", bg = "#92badc")
 main_page_label.grid(row = 0, column = 0)
@@ -141,8 +163,12 @@ main_page_button.grid(row = 1, column = 0, pady = 10)
 main_page_button2 = Button(main_page, text = "If You Want A Random Topic Click It", command = random, bg = "#bed6ea")
 main_page_button2.grid(row = 2, column = 0, pady = 10, ipadx = 10)
 
+show_library = Button(main_page, text = "Your Library", command = library, bg = "#bed6ea")
+show_library.grid(row = 3, column = 0, pady = 10, ipadx = 10)
+
+
 exit_button = Button(main_page, text = "Exit.", command = main_page.quit, bg = "#bed6ea")
-exit_button.grid(row = 3, column = 0)
+exit_button.grid(row = 4, column = 0)
 
 conn.commit()
 
