@@ -7,7 +7,7 @@ import random
 main_page = Tk()
 
 main_page.title('Reader')
-
+main_page.resizable(width = False, height = False)
 
 def select():
     global mylabel
@@ -107,6 +107,6 @@ main_page_button2 = Button(main_page, text = "If You Want A Random Topic Click I
 main_page_button2.grid(row = 2, column = 0, pady = 10, ipadx = 10)
 
 exit_button = Button(main_page, text = "Exit.", command = main_page.quit)
-exit_button.grid(row = 3, column = 1, ipadx = 20)
+exit_button.grid(row = 3, column = 0)
 
 main_page.mainloop()
