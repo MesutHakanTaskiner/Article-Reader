@@ -1,5 +1,4 @@
 from tkinter import *
-from PIL import Image, ImageTk
 import requests
 from bs4 import BeautifulSoup
 import wikipedia
@@ -26,10 +25,6 @@ def summary():
     mylabel.place(x = 50, y = 50)
 
     topic.delete(0 , END)
-    #for i in range(1):
-    #    mylabel = Label(root, text = wikipedia.summary(topic.get(), sentences = i))
-    #    mylabel.grid(row = 1, column = 0, columnspan = 1)
-        
 
 #r = requests.get("https://tr.wikipedia.org/wiki/Google")
 
@@ -43,7 +38,6 @@ mybutton = Button(root, text = "Enter your topic what dou you want to read", com
 mybutton.grid(row = 0, column = 1)
 mybutton.place(x = 100, y = 0)
 
-#print(wikipedia.summary('Matematik', sentences = 3))
 
 
 root.mainloop()
