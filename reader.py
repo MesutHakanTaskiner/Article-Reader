@@ -163,24 +163,14 @@ def library():
 
     cursor = conn.cursor()
 
-    i = 1
-
     cursor.execute("SELECT * FROM MyLibrary")
     records = cursor.fetchall()
 
     for item in records:
         my_listbox.insert(END, str(item[0]))
 
-    #library_label = Label(library, text = print_records, bg = "#92badc")
-    #library_label.grid(row = 0, column = 0)
-
-    #delete_box = Entry(library, width = 20)
-    #delete_box.grid(row = 0, column = 1)
-    #delete_box.place(x = 150, y = 20)
-
     delete_button = Button(library, text = "Delete Record From Table", command = delete, bg="#92badc")
     delete_button.grid(row = 1, column = 0, padx = 100, pady = 10, ipadx = 100)
-    #delete_button.grid(row = 3, column = 1)
 
     conn.commit()
 
@@ -192,11 +182,9 @@ def delete():
     conn = sqlite3.connect('Articles_Library.db')
 
     cursor = conn.cursor()
-    
-
-    #cursor.execute("DELETE from MyLibrary WHERE topics = " + my_listbox.get())
 
     query = """DELETE from MyLibrary WHERE Topics = ?"""
+
     cursor.execute(query, (my_listbox.get(ANCHOR),))
     
     my_listbox.delete(ANCHOR)
