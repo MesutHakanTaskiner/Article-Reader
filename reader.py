@@ -193,7 +193,7 @@ def delete():
     conn.commit()
 
     conn.close()
-    
+
 main_page_label = Label(main_page, text = "Welcome To The My Reader", bg = "#92badc")
 main_page_label.grid(row = 0, column = 0)
 main_page_label.config(font=("Courier", 20))
