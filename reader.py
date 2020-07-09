@@ -108,7 +108,7 @@ def summary():
           
     root.geometry("500x500")
  
-    mylabel = Label(root, text = wikipedia.summary(topic_get(), sentences = 20), wraplength = 400, bg = "#dde9f4")
+    mylabel = Label(root, text = wikipedia.summary(topic.get(), sentences = 20), wraplength = 400, bg = "#dde9f4")
     mylabel.grid(row = 1, column = 0)
     mylabel.place(x = 50, y = 50)
 
@@ -171,6 +171,9 @@ def library():
 
     delete_button = Button(library, text = "Delete Record From Table", command = delete, bg="#92badc")
     delete_button.grid(row = 1, column = 0, padx = 100, pady = 10, ipadx = 100)
+
+    exit = Button(library, text = "Exit", command = library.destroy, bg="#92badc")
+    exit.grid(row = 2 , column = 0, pady = 20)
 
     conn.commit()
 
