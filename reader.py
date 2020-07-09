@@ -22,6 +22,17 @@ cursor.execute("""CREATE TABLE MyLibrary (
 )""")
 '''
 control = 0
+mylabel = NONE
+topic = NONE
+mybutton = NONE
+root = NONE
+random_label = NONE
+random_window = NONE
+random_label_2 = NONE
+topic_random = NONE
+topics = NONE
+delete_box = NONE
+my_listbox = NONE
 
 def select():
     global mylabel
