@@ -180,8 +180,6 @@ def library():
     conn.close()
 
 def delete():
-    global my_listbox
-
     conn = sqlite3.connect('Articles_Library.db')
 
     cursor = conn.cursor()
