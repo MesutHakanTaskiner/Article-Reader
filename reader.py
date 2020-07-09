@@ -151,14 +151,13 @@ def database():
 def library():
     global delete_box
     global my_listbox
-    global record
 
     library = Tk()
     library.title('Your Library')
     library.configure(background = "#92badc")
 
-    my_listbox = Listbox(library)
-    my_listbox.pack(pady = 10)
+    my_listbox = Listbox(library, bg="#92badc")
+    my_listbox.grid(row = 0, column = 0, padx = 100, ipadx = 100)
 
     conn = sqlite3.connect('Articles_Library.db')
 
@@ -169,12 +168,9 @@ def library():
     cursor.execute("SELECT * FROM MyLibrary")
     records = cursor.fetchall()
 
-    print_records = ''
-    for record in records:
-        print_records += str(i) + "-" + str(record[0]) + "\n"
-        i += 1
-        my_listbox.insert(END, record)
-    
+    for item in records:
+        my_listbox.insert(END, str(item[0]))
+
     #library_label = Label(library, text = print_records, bg = "#92badc")
     #library_label.grid(row = 0, column = 0)
 
@@ -182,9 +178,9 @@ def library():
     #delete_box.grid(row = 0, column = 1)
     #delete_box.place(x = 150, y = 20)
 
-    delete_button = Button(library, text = "Delete Record From Table", command = delete).pack(pady = 10)
+    delete_button = Button(library, text = "Delete Record From Table", command = delete, bg="#92badc")
+    delete_button.grid(row = 1, column = 0, padx = 100, pady = 10, ipadx = 100)
     #delete_button.grid(row = 3, column = 1)
-
 
     conn.commit()
 
@@ -192,16 +188,19 @@ def library():
 
 def delete():
     global my_listbox
-    global topics
 
     conn = sqlite3.connect('Articles_Library.db')
 
     cursor = conn.cursor()
     
-    print(topics)
 
-    cursor.execute("DELETE from MyLibrary WHERE topics = " + my_listbox.get())
-        
+    #cursor.execute("DELETE from MyLibrary WHERE topics = " + my_listbox.get())
+
+    query = """DELETE from MyLibrary WHERE Topics = ?"""
+    cursor.execute(query, (my_listbox.get(ANCHOR),))
+    
+    my_listbox.delete(ANCHOR)
+
     conn.commit()
 
     conn.close()
@@ -218,7 +217,6 @@ main_page_button2.grid(row = 2, column = 0, pady = 10, ipadx = 10)
 
 show_library = Button(main_page, text = "Your Library", command = library, bg = "#bed6ea")
 show_library.grid(row = 3, column = 0, pady = 10, ipadx = 10)
-
 
 exit_button = Button(main_page, text = "Exit.", command = main_page.quit, bg = "#bed6ea")
 exit_button.grid(row = 4, column = 0)
